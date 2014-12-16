@@ -1,0 +1,39 @@
+#myVideo {
+	position:absolute;	
+	z-index:-1;
+  	top: 50%;
+  	left: 50%;
+  	transform: translate(-50%, -50%);
+}
+
+#comment {
+    	position:absolute;
+	z-inde:1;
+	height:300px;
+	table-layout:fixed;
+	back-ground:green;
+}
+#demo1,#demo2,#demo3,#demo4,#demo5,#demo6{
+	white-space: pre;
+	overflow:hidden;
+	font-size:40px;
+	//text-align: right;
+}
+#waikuang 
+{
+	position:absolute;
+	width:250px;
+	height:704px;
+	overflow-x: hidden;
+	z-index:2;	
+}
+#commentkuang{
+	position:absolute;
+	width:250px;
+	z-index:2;	
+	
+}
+#danmuinput{
+	position:absolute;	
+		
+}
