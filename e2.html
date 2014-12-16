@@ -50,15 +50,11 @@
 
 <div id="danmuinput">
         <label>Comment</label>
-        <input type="text" id="search_input" value="input comment"/>
+        <input type="text" id="search_input" value="input comment"  onfocus="if (value=='input comment'){value=''}" onblur="if (value==''){value='input comment'}"/>
   	<input type="color" id="inputColor" value="#ff0000">
         <input type="button" id="search_button" value="Send" />
         <input type="button" id="clear" value="Clear" />
 </div>
-
-<script>
-	
-</script>
 
   	<script src="position.js"></script> 
 
