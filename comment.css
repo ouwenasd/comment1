@@ -28,6 +28,8 @@
 	z-index:2;	
 }
 #commentkuang{
+   border: 1px solid black;
+	table-layout:fixed;
 	position:absolute;
 	width:250px;
 	z-index:2;	
@@ -36,4 +38,6 @@
 #danmuinput{
 	position:absolute;	
 		
-}
+}table, th, td {
+	overflow:hidden;
+} 

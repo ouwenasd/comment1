@@ -14,18 +14,29 @@ $(function () {
     		model: SingleDanMu,
     		localStorage: new Backbone.LocalStorage("danmuzu-backbone1"),
 	});
-
+	var idCount=0;
 	var danMuZu = new DanMuZu;
-    	var DanMuZuShowListView = Backbone.View.extend({
-    		el: "#commentkuang",
+    var DanMuZuShowListView = Backbone.View.extend({
+    	el: "#commentkuang",
 
-    		initialize: function() {
-        		this.listenTo(this.model, 'change', this.renderOne);
-    		},
-
+    	initialize: function() {
+			idCount++;
+        	this.listenTo(this.model, 'change', this.renderOne);
+    	},
     		
-    		renderOne: function() {
+    	renderOne: function() {
 			var row=document.getElementById("commentkuang").insertRow(danMuZu.length);
+			row.id = ""+ idCount;
+			row.ondblclick = function() {
+				var timeString = document.getElementById(row.id).cells[0].innerHTML;
+    			document.getElementById("myVideo").currentTime=Number(timeString.substr(0, timeString.indexOf(':')))*60+Number(timeString.substr(timeString.indexOf(':')+1));
+			};
+			row.onmouseover = function() {
+				row.style.backgroundColor = "gray";
+			};
+			row.onmouseout  = function() {
+				row.style.backgroundColor = "white";
+			};
 			var cell=row.insertCell(0);
 			var time=this.model.toJSON().Time;
 			if(Math.floor(time%60)<10){
@@ -39,20 +50,30 @@ $(function () {
 			cell.innerHTML=this.model.toJSON().Danmu;
 			var cell=row.insertCell(2);
 			cell.innerHTML=this.model.toJSON().Date;
-    		}
-
+    	}
 	});
 
 
-    	var DanMuInputView = Backbone.View.extend({
-    		el: "#danmuinput",
+    var DanMuInputView = Backbone.View.extend({
+    	el: "#danmuinput",
 
-    		initialize: function(){
+    	initialize: function(){
 			this.listenTo(danMuZu, 'add', this.addOne);
 			danMuZu.fetch();
 			var DanMuLength = 1;
 			danMuZu.each(function(singleDanMu){
 				var row=document.getElementById("commentkuang").insertRow(DanMuLength);
+				row.id = ""+ DanMuLength;
+				row.ondblclick = function() {
+					var timeString = document.getElementById(row.id).cells[0].innerHTML;
+    				document.getElementById("myVideo").currentTime=Number(timeString.substr(0, timeString.indexOf(':')))*60+Number(timeString.substr(timeString.indexOf(':')+1));
+				};
+				row.onmouseover = function() {
+					row.style.backgroundColor = "gray";
+				};
+				row.onmouseout  = function() {
+					row.style.backgroundColor = "white";
+				};
 				var cell=row.insertCell(0);
 				var time=singleDanMu.get('Time');
 				if(Math.floor(time%60)<10){
@@ -68,33 +89,32 @@ $(function () {
 				cell.innerHTML=singleDanMu.get('Date');
 				DanMuLength++;
 			})
-    		},
-    
-
-    		events:{  
+    	},
+    	events:{  
 			'click #search_button' : 'inputDanMu', 
 			'click #clear' : 'cleanDanMu',
 
-    		},
+    	},
 
-    		inputDanMu: function(e){
-    			var d = new Date();
+    	inputDanMu: function(e){
+    		var d = new Date();
 			var month = d.getMonth() +1;
-    			var formattedDate = month + "-" + d.getDate() + " " + d.getHours()+":"+d.getMinutes();
+    		var formattedDate = month + "-" + d.getDate() + " " + d.getHours()+":"+d.getMinutes();
 			danMuZu.create({Time: document.getElementById("myVideo").currentTime,Danmu: $("#search_input").val(),Date:formattedDate, Color:$("#inputColor").val()});
-    		},
+    	},
 
 
-    		cleanDanMu: function(e){
+    	cleanDanMu: function(e){
 			var length = danMuZu.length;
 			for(i=0;i<length;i++){
 				danMuZu.at(0).destroy();
 			}
-
 		},
+
 		addOne: function(todo) {
 			var view = new DanMuZuShowListView({model: todo});
 		},
+
 		delete: function(){
 			this.model.destroy();
 		}
